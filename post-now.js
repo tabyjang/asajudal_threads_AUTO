@@ -52,29 +52,68 @@ async function publishPost(containerId) {
     }
 }
 
+// CSV 파일 파싱
+function parseCSV(csvContent) {
+    const lines = csvContent.trim().split('\n');
+    const headers = lines[0].split(',');
+
+    const data = [];
+    for (let i = 1; i < lines.length; i++) {
+        const values = parseCSVLine(lines[i]);
+        if (values.length === headers.length) {
+            const item = {};
+            headers.forEach((header, index) => {
+                item[header.trim()] = values[index].trim();
+            });
+            data.push(item);
+        }
+    }
+
+    return data;
+}
+
+// CSV 라인 파싱
+function parseCSVLine(line) {
+    const result = [];
+    let current = '';
+    let inQuotes = false;
+
+    for (let i = 0; i < line.length; i++) {
+        const char = line[i];
+
+        if (char === '"') {
+            inQuotes = !inQuotes;
+        } else if (char === ',' && !inQuotes) {
+            result.push(current);
+            current = '';
+        } else {
+            current += char;
+        }
+    }
+
+    result.push(current);
+    return result;
+}
+
 // 메인
 async function main() {
     console.log('🚀 지금 바로 게시!\n');
     console.log('='.repeat(60));
 
-    // 12월 24일 오늘의 운세
-    const text = `🎄 [12월 24일 화요일] 크리스마스 이브 특집 운세
+    // CSV 파일 읽기
+    const csvPath = './content_schedule.csv';
+    const csvContent = fs.readFileSync(csvPath, 'utf8');
+    const schedule = parseCSV(csvContent);
 
-🐭 쥐띠: 특별한 선물이나 좋은 소식이 올 수 있어요! 기대하세요 ✨
-💼 업무운 ★★★★☆ 💰 재물운 ★★★★☆ ❤️ 연애운 ★★★★★
+    // 인자로 받은 인덱스 또는 첫 번째 항목 가져오기
+    const index = process.argv[2] ? parseInt(process.argv[2]) : 0;
+    const firstItem = schedule[index];
 
-🐮 소띠: 차분하게 주변을 돌아보기 좋은 날. 감사의 마음을 전해보세요
-💼 업무운 ★★★☆☆ 💰 재물운 ★★★☆☆ ❤️ 연애운 ★★★★☆
-
-🐯 호랑이띠: 리더십을 발휘할 기회! 파티나 모임에서 주목받아요
-💼 업무운 ★★★★☆ 💰 재물운 ★★★☆☆ ❤️ 연애운 ★★★★★
-
-🐰 토끼띠: 로맨틱한 고백이나 프러포즈 성공률 UP!
-💼 업무운 ★★★☆☆ 💰 재물운 ★★★★☆ ❤️ 연애운 ★★★★★
-
-👉 전체 12띠 상세 운세는 프로필 링크에서!
-
-#크리스마스이브 #오늘의운세 #띠별운세 #사주`;
+    // 텍스트 준비
+    let text = firstItem.text;
+    if (firstItem.hashtags) {
+        text += `\n\n${firstItem.hashtags}`;
+    }
 
     console.log('📄 게시할 내용:');
     console.log(text);
