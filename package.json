@@ -6,7 +6,8 @@
   "scripts": {
     "test": "node test-threads.js",
     "upload": "node upload-image.js",
-    "privacy": "node serve-privacy.js"
+    "privacy": "node serve-privacy.js",
+    "scheduler": "node auto-scheduler.js"
   },
   "keywords": ["threads", "api", "automation"],
   "author": "",

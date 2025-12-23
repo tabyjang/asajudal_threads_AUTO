@@ -3,7 +3,7 @@
  * 간단한 텍스트 게시물을 올립니다
  */
 
-require('dotenv').config();
+require('dotenv').config({ override: true });
 const axios = require('axios');
 
 // 환경 변수 확인

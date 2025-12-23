@@ -6,13 +6,19 @@ Threads API를 사용하여 게시물을 자동으로 업로드하는 프로그�
 
 ```
 auto_program_with_claude/
-├── META_DEVELOPER_SETUP.md   # Meta Developer API 발급 가이드
-├── test-threads.js            # 텍스트 게시 테스트
-├── upload-image.js            # 이미지 업로드 테스트
-├── package.json               # 프로젝트 설정
-├── .env.example               # 환경 변수 예시
-├── .env                       # 실제 환경 변수 (생성 필요)
-└── README.md                  # 이 파일
+├── META_DEVELOPER_SETUP.md        # Meta Developer API 발급 가이드
+├── THREADS_MARKETING_STRATEGY.md  # Threads 마케팅 전략 가이드
+├── FORTUNE_WRITING_GUIDE.md       # 띠별 운세 작성 가이드
+├── PRIVACY_HOSTING_GUIDE.md       # 개인정보처리방침 호스팅 가이드
+├── TROUBLESHOOTING.md             # 문제 해결 가이드
+├── test-threads.js                # 텍스트 게시 테스트
+├── upload-image.js                # 이미지 업로드 테스트
+├── auto-scheduler.js              # CSV 기반 자동 스케줄러
+├── content_schedule.csv           # 게시물 스케줄 (예시)
+├── package.json                   # 프로젝트 설정
+├── .env.example                   # 환경 변수 예시
+├── .env                           # 실제 환경 변수 (생성 필요)
+└── README.md                      # 이 파일
 ```
 
 ---
@@ -125,6 +131,48 @@ copy .env.example .env
 1. 이미지 URL이 직접 접근 가능한지 확인 (브라우저에서 열어보기)
 2. HTTPS URL인지 확인
 3. 이미지 크기 확인 (너무 크면 실패)
+
+---
+
+## 자동 스케줄러 사용하기 (NEW! 🎉)
+
+### CSV 파일 기반 자동 게시
+
+`content_schedule.csv` 파일에 게시할 내용을 작성해두면, 지정된 시간에 자동으로 게시합니다!
+
+### CSV 파일 형식
+
+```csv
+date,time,content_type,text,image_url,hashtags
+2025-12-24,07:00,daily_fortune,"오늘의 운세 내용...",https://example.com/image.jpg,"#운세 #사주"
+2025-12-24,13:00,tip,"사주 미니 지식...",https://example.com/image2.jpg,"#사주팁"
+```
+
+### 스케줄러 실행
+
+```bash
+npm run scheduler
+```
+
+또는
+
+```bash
+node auto-scheduler.js
+```
+
+**작동 방식**:
+- 5분마다 CSV 파일을 확인
+- 현재 시간과 일치하는 게시물을 자동으로 업로드
+- 이미 게시한 항목은 `posted_log.json`에 기록되어 중복 방지
+- Ctrl+C로 종료할 때까지 계속 실행
+
+### 사주분석 사이트 홍보 전략
+
+**THREADS_MARKETING_STRATEGY.md**와 **FORTUNE_WRITING_GUIDE.md**를 참고하세요!
+- 효과적인 콘텐츠 전략
+- 띠별 운세 작성 방법
+- 최적 포스팅 시간
+- 100가지 콘텐츠 아이디어
 
 ---
 
