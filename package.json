@@ -1,26 +1,19 @@
 {
-  "name": "clerk-2nd-test",
-  "version": "0.1.0",
-  "private": true,
+  "name": "threads-api-test",
+  "version": "1.0.0",
+  "description": "Threads API 테스트 및 자동 업로드",
+  "main": "test-threads.js",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "test": "node test-threads.js",
+    "upload": "node upload-image.js",
+    "privacy": "node serve-privacy.js"
   },
+  "keywords": ["threads", "api", "automation"],
+  "author": "",
+  "license": "MIT",
   "dependencies": {
-    "next": "16.0.6",
-    "react": "19.2.0",
-    "react-dom": "19.2.0"
-  },
-  "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.0.6",
-    "tailwindcss": "^4",
-    "typescript": "^5"
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1",
+    "form-data": "^4.0.0"
   }
 }
